@@ -44,6 +44,11 @@ Use the PUBLIC IP address of EC2 and paste in URL path of slash command URL.
 
 
 ### Testing 
+
+All unitTests in slackBot Folder 
+
+*Without unitTests its very hard to test a controller which runs in server*
+
 Tested using postMan - Collections - sending a set of 20...30 POST requests.
 
 Trying to automate this via Jenkins - Useful of Continuous Integration.
