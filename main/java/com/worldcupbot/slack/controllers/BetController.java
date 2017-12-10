@@ -5,6 +5,7 @@ package com.worldcupbot.slack.controllers;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,11 +19,14 @@ import com.worldcupbot.slack.model.WorldCupBet;
 @RestController
 public class BetController {
 
-    private static Map< String, Map<Integer, WorldCupBet>> userMap = new HashMap<>();
+    private static Map< String, Map<String, WorldCupBet>> userMap = new HashMap<>();
     private static Map<String,Integer> pointsMap =new HashMap();
+    private static Map<String, WorldCupBet> matchMap = new HashMap<>();
+    
     private String forScore;
     private String againstScore;
-
+    private boolean flag=false;
+    
     @RequestMapping("/bet")
     public String placeBet(@RequestParam("text") String text,
             @RequestParam("user_name") String user) {
@@ -30,7 +34,6 @@ public class BetController {
         WorldCupBet worldCupBet = new WorldCupBet();
 
         String response = "";
-        
         String match = "";
         String score = "";
         String verb = "";
@@ -57,11 +60,11 @@ public class BetController {
        
 
         if (verb.equalsIgnoreCase("bet")) {
-            return placeBet(user, worldCupBet, Integer.valueOf(match));
+            return placeBet(user, worldCupBet, match);
         }
 
         if (verb.equalsIgnoreCase("set-score")) {
-            return calculatePoints(user);
+            return calculatePoints(user,match);
 
         }
         if(verb.equalsIgnoreCase("ranking")) {
@@ -79,67 +82,83 @@ public class BetController {
     }
 
    
-	private boolean isAlreadyBet(Integer match, String user) {
-        Map<Integer, WorldCupBet> InnerMap = userMap.get(user);
-        if (InnerMap.containsKey(match)) {
+	private boolean isAlreadyBet(String match, String user) {
+        Map<String, WorldCupBet> matchMap = userMap.get(user);
+        if (matchMap.containsKey(match)) {
             return true;
         } else {
             return false;
         }
     }
+	
+	
+	
+	
+	
+	
+	
+	
 
-    private String placeBet(String user, WorldCupBet worldCupBet, Integer match) {
+    private String placeBet(String user, WorldCupBet worldCupBet, String match) {
         String response="";
-        Map<Integer, WorldCupBet> InnerMap = new HashMap<>();
+        
         System.out.println(""+user+""+match);  
         if (!userMap.containsKey(user)) {
         	   System.out.println("If UserMap does not contains"+user+""+match);  
-        	     
+        	   
             worldCupBet.setForscore(Integer.valueOf(forScore));
             worldCupBet.setAgainstscore(Integer.valueOf(againstScore));
 
           
-            InnerMap.put(match, worldCupBet);
+            matchMap.put(match, worldCupBet);
             
-            userMap.put(user, InnerMap);
-            response = " bet placed on match--" + match + "-----predicted scores --- " + forScore + ":" + againstScore;
-            	response="First bet for the user "+user;
+            userMap.put(user, matchMap);
+            response = " bet placed on match--" + match + "\tpredicted scores\t" + forScore + ":" + againstScore;
+            	response="Welcome This is your first bet "+user;
         } 
         else if (userMap.containsKey(user) && !(isAlreadyBet(match, user)))  {
         	   System.out.println("Second Bet if userMap contains "+user+""+match);  
-        	     
+               
             worldCupBet.setForscore(Integer.valueOf(forScore));
             worldCupBet.setAgainstscore(Integer.valueOf(againstScore));
           
-            InnerMap.put(match, worldCupBet);
+            matchMap.put(match, worldCupBet);
             
-            userMap.put(user, InnerMap);
-            response = " bet placed on match--" + match + "----predicted scores--- " + forScore + ":" + againstScore;
-            	response = "Multiple bets  for the user "+user;
+            //userMap.put(user, matchMap);
+            response = " bet placed on match\t" + match + "\tpredicted scores\t" + forScore + ":" + againstScore;
+            	response = "Multiple bets  for the user - Good luck \t"+user;
          	} else if (userMap.containsKey(user) && (isAlreadyBet(match, user))) {
-            response = " Bet already exists for match --" + match + "----your predicted scores--- " + forScore + ":" + againstScore;
+            response = " Bet already exists for match \t" + match + "\tyour predicted scores\t" + forScore + ":" + againstScore;
         }
-        
+        for (Entry<String, WorldCupBet> entry : matchMap.entrySet()) {
+            String key = entry.getKey();
+            WorldCupBet value = entry.getValue();
+            
+            System.out.println(key+"\t"+value.getAgainstscore()+value.getForscore()+value.getMatch()+value.getMatch());
 
+        }
+           
         return response;
     }
     
     
-    private String calculatePoints(String user){
+    private String calculatePoints(String user, String match){
         int bet = 0;
         int original = 0;
         int points = 0;
         String response="";
-        boolean flag=false;
-        System.out.println("User to Calculate points -- "+user);
-        //        if (userMap.get(userKey).equals(user)) {
-          // System.out.println("User to Calculate points -- "+user);
-    	    
-                    Map<Integer, WorldCupBet> InnerMap = userMap.get(user);
-                    for (Integer matchKey : InnerMap.keySet()) {
-                        
-                        WorldCupBet wcBet = InnerMap.get(matchKey);
-
+  
+        System.out.println("User to Calculate points\t "+user+match);    
+                    	System.out.println(match);
+                    	for (String userKey : userMap.keySet()) {
+                            if (userKey.equals(user)) {
+                                Map<String, WorldCupBet> matchMap = userMap.get(user);
+                                System.out.println(user);
+                                for (String matchKey : matchMap.keySet()) {
+                                    System.out.print(matchKey);
+                                    
+                                    WorldCupBet wcBet = matchMap.get(match);
+                                     System.out.print(wcBet.getAgainstscore()+wcBet.getForscore()+wcBet.getMatch());
                         bet = Math.abs(wcBet.getAgainstscore()
                                 - wcBet.getForscore());
                         original = Math.abs(Integer.valueOf(forScore)
@@ -149,48 +168,53 @@ public class BetController {
                         if ((wcBet.getForscore() == Integer.valueOf(forScore)) && (wcBet.getAgainstscore() == Integer.valueOf(againstScore))) {
                         	points =3;
                         	pushPoints(user,points);
+                        	System.out.println("points is 3 "+wcBet.getAgainstscore()+wcBet.getAgainstscore()+Integer.valueOf(forScore)+Integer.valueOf(againstScore)+points);
                         	flag=true;
                         	return String.valueOf(points);
                             
                         }
                          
-                        else  if (bet == original && flag == false) {
+                        if (bet == original && flag == false) {
                         	points =2;
                         	pushPoints(user,points);
                         	System.out.println("Scenario - 2 gets 2 point" + bet + original);
+                            System.out.print(wcBet.getAgainstscore()+wcBet.getForscore()+wcBet.getMatch());
+
                         	return String.valueOf(points);
                                 
                         }
                         
-                        
-                        
-                     
-                        	if ((wcBet.getAgainstscore() > wcBet.getForscore()) && (Integer.valueOf(againstScore) > Integer.valueOf(forScore) && flag==false)) 
+                	if ((wcBet.getAgainstscore() > wcBet.getForscore()) && (Integer.valueOf(againstScore) > Integer.valueOf(forScore) && flag==false)) 
                         	{
            
                         		points =1;
+                            	System.out.println("points is 1  "+wcBet.getAgainstscore()+wcBet.getAgainstscore()+Integer.valueOf(forScore)+Integer.valueOf(againstScore)+points);
+                                System.out.print(wcBet.getAgainstscore()+wcBet.getForscore()+wcBet.getMatch());
+
                         		pushPoints(user,points);
                         		//wcBet.setPointsWon(points);
                             return String.valueOf(points);
                         }
 
-                        	  if ((wcBet.getForscore() > wcBet.getAgainstscore()) && (Integer.valueOf(forScore) > Integer.valueOf(againstScore))) {
+                        	  if ((wcBet.getForscore() > wcBet.getAgainstscore()) && (Integer.valueOf(forScore) > Integer.valueOf(againstScore) && flag==false)) {
                         		points =1;
+                            	System.out.println("points is 1 "+wcBet.getAgainstscore()+wcBet.getAgainstscore()+Integer.valueOf(forScore)+Integer.valueOf(againstScore)+points);
                         		pushPoints(user,points);
                             	System.out.println("Scenario - 1B gets 1 point" + wcBet.getAgainstscore() + wcBet.getForscore());
                           return String.valueOf(points);
                         } 
-                    }
+                    
                     System.out.println("User"+user);
                     System.out.println("userkey"+user);
                    // pointsMap.put(user,points);
-                    response = user + "" + Integer.valueOf(pointsMap.get(user));
+                   // response = user + "" + Integer.valueOf(pointsMap.get(user));
                     
-       
+
+                                }
+                            }
+                    	}
         return response;
        
-    
-	
     }
  
     private String pushPoints(String user,int points) {
@@ -206,7 +230,7 @@ public class BetController {
                         		{
                         	 value= pointsMap.get(user);
                         	 totalpoint = points + value;
-                        	System.out.println(points+"----"+value );
+                        	System.out.println(points+"\t"+value );
                         	pointsMap.put(user, totalpoint);
                         		}
                         	
@@ -215,7 +239,7 @@ public class BetController {
                         	}
                         	}
                         	}
-                        	System.out.println("points ++"+points+"points from hash map---"+pointsMap.get(user)+""+user);
+                        	System.out.println("points\t"+points+"points from hash map\t"+pointsMap.get(user)+""+user);
 							
                         	return null;
     }
@@ -224,12 +248,12 @@ public class BetController {
     	String resp="";
     	if(pointsMap.isEmpty() || null==pointsMap) {
     	 	System.out.println("PointsMap is empty");
-    	 	resp+= "Points Map is Empty - Real Scores are yet to come.....";
+    	 	resp+= "Real Scores are yet to come.....";
     	}
     	
     	for (Map.Entry<String, Integer> entry : pointsMap.entrySet()) {
     		System.out.println("User : " + entry.getKey() + " Points : " + entry.getValue());
-    		resp += entry.getKey()+"----------"+entry.getValue()+"\n";
+    		resp += entry.getKey()+"\t"+entry.getValue()+"\n";
     	}
          
 		return resp;
