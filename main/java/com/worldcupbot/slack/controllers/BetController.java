@@ -193,7 +193,8 @@ public class BetController {
       //wcBet.setPointsWon(points);
       return String.valueOf(points);
      }
-
+     System.out.println("ForScore\t" + wcBet.getForscore()+"AgainstScore\t"+ wcBet.getAgainstscore() +"ActualForScore\t"+ Integer.valueOf(forScore)+"ActualAgainstScore\t"+Integer.valueOf(againstScore) );
+     
      if ((wcBet.getForscore() > wcBet.getAgainstscore()) && (Integer.valueOf(forScore) > Integer.valueOf(againstScore) && flag == false)) {
       points = 1;
       System.out.println("points is 1 " + wcBet.getAgainstscore() + wcBet.getAgainstscore() + Integer.valueOf(forScore) + Integer.valueOf(againstScore) + points);

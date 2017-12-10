@@ -121,7 +121,7 @@ public class worldCupbetModelTester {
 	public void testCalculateAllOnePoints() {
 		
 		BetController calcTest = new BetController();
-		
+	
 		assertNotEquals("Welcome This is your first bet Zlatan" , calcTest.placeBet("bet 1 1:0", "Zlatan"));
 		assertEquals("1",calcTest.placeBet("set-score 1 3:0", "Zlatan"));
 		assertNotEquals("Welcome This is your first bet Zlatan" , calcTest.placeBet("bet 2 2:0", "Zlatan"));
@@ -132,9 +132,9 @@ public class worldCupbetModelTester {
 		assertNotEquals("Welcome This is your first bet Modric" , calcTest.placeBet("bet 1 0:1", "Modric"));
 		assertEquals("1",calcTest.placeBet("set-score 1 0:9", "Modric"));
 		assertNotEquals("Welcome This is your first bet Modric" , calcTest.placeBet("bet 2 0:2", "Modric"));
-		assertEquals("1",calcTest.placeBet("set-score 2 0:1", "Modric"));
-		//assertNotEquals("Welcome This is your first bet Modric" , calcTest.placeBet("bet 3 0:5", "Modric"));
-	//	assertEquals("1",calcTest.placeBet("set-score 3 0:2", "Modric"));
+		assertEquals("1",calcTest.placeBet("set-score 2 0:5", "Modric"));
+		assertNotEquals("Welcome This is your first bet Modric" , calcTest.placeBet("bet 3 0:5", "Modric"));
+		assertEquals("1",calcTest.placeBet("set-score 3 0:2", "Modric"));
 		
 	}
 	
