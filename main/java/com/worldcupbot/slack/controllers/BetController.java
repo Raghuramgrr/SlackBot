@@ -115,7 +115,7 @@ public class BetController {
             
             userMap.put(user, InnerMap);
             response = " bet placed on match--" + match + "----predicted scores--- " + forScore + ":" + againstScore;
-            	response = "Second Bet for the user "+user;
+            	response = "Multiple bets  for the user "+user;
          	} else if (userMap.containsKey(user) && (isAlreadyBet(match, user))) {
             response = " Bet already exists for match --" + match + "----your predicted scores--- " + forScore + ":" + againstScore;
         }
@@ -130,7 +130,7 @@ public class BetController {
         int original = 0;
         int points = 0;
         String response="";
-        
+        boolean flag=false;
         System.out.println("User to Calculate points -- "+user);
         //        if (userMap.get(userKey).equals(user)) {
           // System.out.println("User to Calculate points -- "+user);
@@ -144,17 +144,17 @@ public class BetController {
                                 - wcBet.getForscore());
                         original = Math.abs(Integer.valueOf(forScore)
                                 - Integer.valueOf(againstScore));
-
+                               
                         
-                        if (wcBet.getForscore() == Integer.valueOf(forScore) && wcBet.getAgainstscore() == Integer.valueOf(againstScore)) {
+                        if ((wcBet.getForscore() == Integer.valueOf(forScore)) && (wcBet.getAgainstscore() == Integer.valueOf(againstScore))) {
                         	points =3;
                         	pushPoints(user,points);
+                        	flag=true;
                         	return String.valueOf(points);
                             
                         }
                          
-                        else 
-                        if (bet == original) {
+                        else  if (bet == original && flag == false) {
                         	points =2;
                         	pushPoints(user,points);
                         	System.out.println("Scenario - 2 gets 2 point" + bet + original);
@@ -164,17 +164,17 @@ public class BetController {
                         
                         
                         
-                        else 
-                        	if ((wcBet.getAgainstscore() > wcBet.getForscore()) && (Integer.valueOf(againstScore) > Integer.valueOf(forScore))) 
+                     
+                        	if ((wcBet.getAgainstscore() > wcBet.getForscore()) && (Integer.valueOf(againstScore) > Integer.valueOf(forScore) && flag==false)) 
                         	{
-                        
+           
                         		points =1;
                         		pushPoints(user,points);
                         		//wcBet.setPointsWon(points);
                             return String.valueOf(points);
                         }
 
-                        	else  if ((wcBet.getForscore() > wcBet.getAgainstscore()) && (Integer.valueOf(forScore) > Integer.valueOf(againstScore))) {
+                        	  if ((wcBet.getForscore() > wcBet.getAgainstscore()) && (Integer.valueOf(forScore) > Integer.valueOf(againstScore))) {
                         		points =1;
                         		pushPoints(user,points);
                             	System.out.println("Scenario - 1B gets 1 point" + wcBet.getAgainstscore() + wcBet.getForscore());
