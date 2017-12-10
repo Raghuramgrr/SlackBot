@@ -13,12 +13,12 @@ public class WorldCupBet {
     
     
     
-	public WorldCupBet(int match, int forscore, int againstscore, int pointsWon) {
+	public WorldCupBet(int match, int forscore, int againstscor) {
 		super();
 		this.match = match;
 		this.forscore = forscore;
 		this.againstscore = againstscore;
-		this.pointsWon = pointsWon;
+		
 	}
 	
 	

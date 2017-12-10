@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,12 +47,17 @@ public class BetController {
    verb = tokens[0];
    match = tokens[1];
    score = tokens[2];
-   String[] scores = score.toString().split(":");
+   String[] scores = score.toString().split(":|-");
    forScore = scores[0];
    againstScore = scores[1];
   }
-
-
+/*for(int i=0;i<tokens.length;i++) {
+	if(!(Pattern.matches("[a-ZA-Z0-9:-]+",tokens[i])))
+			{
+		response ="Bad Input - Pls Try in this format/worldcup bet 1 1:0 or  /worldcup set-score 1 1:0 or /worldcup ranking ";
+	}
+}
+*/
 
   if (verb.equalsIgnoreCase("bet")) {
    return placeBet(user, worldCupBet, match);
@@ -117,9 +123,9 @@ public class BetController {
 
    //userMap.put(user, matchMap);
    response = " bet placed on match\t" + match + "\tpredicted scores\t" + forScore + ":" + againstScore;
-   response = "Multiple bets  for the user - Good luck \t" + user;
+   response = " Good luck on the bet \t" + user;
   } else if (userMap.containsKey(user) && (isAlreadyBet(match, user))) {
-   response = " Bet already exists for match \t" + match + "\tyour predicted scores\t" + forScore + ":" + againstScore;
+   response = " Bet Placed for match \t" + match + "\tyour predicted scores\t" + forScore + ":" + againstScore;
   }
   for (Entry < String, WorldCupBet > entry: matchMap.entrySet()) {
    String key = entry.getKey();
