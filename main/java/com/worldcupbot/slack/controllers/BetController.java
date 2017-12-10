@@ -250,7 +250,7 @@ public class BetController {
 
   for (Map.Entry < String, Integer > entry: pointsMap.entrySet()) {
    System.out.println("User : " + entry.getKey() + " Points : " + entry.getValue());
-   resp += entry.getKey() + "\t" + entry.getValue() + "\n";
+   resp += entry.getKey() + "\t" + entry.getValue();
   }
 
   return resp;

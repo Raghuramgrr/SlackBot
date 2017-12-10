@@ -1,4 +1,4 @@
-package web1;
+package testbot;
 
 import static org.junit.Assert.*;
 
