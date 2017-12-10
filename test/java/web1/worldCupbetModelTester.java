@@ -54,29 +54,36 @@ public class worldCupbetModelTester {
 		
 		
 	}
-	
-	
+	/*
+
 	@Test
-	public void testCalculatePoints( ) {
+	public void testCalculateAllThreePoints( ) {
 		BetController calcTest = new BetController();
 		
-		assertEquals("Welcome This is your first bet raghu" ,calcTest.placeBet("bet 1 1:0", "raghu"));
-		assertEquals("3",calcTest.placeBet("set-score 1 1:0", "raghu"));
-		assertNotEquals(calcTest.placeBet("bet 2 2:0", "raghu"),matchesPattern("^[Good]+"));
-		assertEquals("3",calcTest.placeBet("set-score 2 2:0", "raghu"));
-		assertNotEquals("Welcome This is your first bet raghu" ,calcTest.placeBet("bet 3 3:0", "raghu"));
-		assertEquals("3",calcTest.placeBet("set-score 3 3:0", "raghu"));
+		assertNotEquals("Welcome This is your first bet Ronaldo" ,calcTest.placeBet("bet 1 1:0", "Ronaldo"));
+		assertEquals("3",calcTest.placeBet("set-score 1 1:0", "Ronaldo"));
+		assertNotEquals(calcTest.placeBet("bet 2 2:0", "Ronaldo"),matchesPattern("^[Good]+"));
+		assertEquals("3",calcTest.placeBet("set-score 2 2:0", "Ronaldo"));
+		assertNotEquals("Welcome This is your first bet Ronaldo" ,calcTest.placeBet("bet 3 3:0", "Ronaldo"));
+		assertEquals("3",calcTest.placeBet("set-score 3 3:0", "Ronaldo"));
 		
-		assertEquals("Welcome This is your first bet ram" ,calcTest.placeBet("bet 1 1:0", "ram"));
-		assertEquals("3",calcTest.placeBet("set-score 1 1:0", "ram"));
-		assertNotEquals("Welcome This is your first bet raghu" ,calcTest.placeBet("bet 2 2:0", "ram"));
-		assertEquals("3",calcTest.placeBet("set-score 2 2:0", "ram"));
-		assertNotEquals("Welcome This is your first bet raghu" ,calcTest.placeBet("bet 3 3:0", "ram"));
-		assertEquals("3",calcTest.placeBet("set-score 3 3:0", "ram"));
+		assertEquals("Welcome This is your first bet Muller" ,calcTest.placeBet("bet 1 1:0", "Muller"));
+		assertEquals("3",calcTest.placeBet("set-score 1 1:0", "Muller"));
+		assertNotEquals("Welcome This is your first bet Ronaldo" ,calcTest.placeBet("bet 2 2:0", "Muller"));
+		assertEquals("3",calcTest.placeBet("set-score 2 2:0", "Muller"));
+		assertNotEquals("Welcome This is your first bet Ronaldo" ,calcTest.placeBet("bet 3 3:0", "Muller"));
+		assertEquals("3",calcTest.placeBet("set-score 3 3:0", "Muller"));
 		
-		//assertThat(calcTest.placeBet("bet 1 1:0", "raghu"),matchesPattern("^[Bet]+"));
+		assertEquals("Welcome This is your first bet Muller" ,calcTest.placeBet("bet 1 1:0", "Muller"));
+		assertEquals("3",calcTest.placeBet("set-score 1 1:0", "Muller"));
+		assertNotEquals("Welcome This is your first bet Ronaldo" ,calcTest.placeBet("bet 2 2:0", "Muller"));
+		assertEquals("3",calcTest.placeBet("set-score 2 2:0", "Muller"));
+		assertNotEquals("Welcome This is your first bet Ronaldo" ,calcTest.placeBet("bet 3 3:0", "Muller"));
+		assertEquals("3",calcTest.placeBet("set-score 3 3:0", "Muller"));
+		
+		//assertThat(calcTest.placeBet("bet 1 1:0", "Ronaldo"),matchesPattern("^[Bet]+"));
 
-		assertNotEquals("Welcome all this is ",(calcTest.placeBet("bet 1 1:0", "raghu")));
+		assertNotEquals("Welcome all this is ",(calcTest.placeBet("bet 1 1:0", "Ronaldo")));
 		
 		//assertEquals("3",calcTest.placeBet("set-score 1 1:0", "raghu"));
 		
@@ -85,6 +92,51 @@ public class worldCupbetModelTester {
 		
 	}
 	
+	@Test
+	public void testCalculateAlltwoPoints( ) {
+		BetController calcTest = new BetController();
+		
+		assertNotEquals("Welcome This is your first bet Rooney" , calcTest.placeBet("bet 1 1:0", "Rooney"));
+		assertEquals("2",calcTest.placeBet("set-score 1 2:1", "Rooney"));
+		assertNotEquals("Welcome This is your first bet Rooney" ,calcTest.placeBet("bet 2 2:0", "Rooney"));
+		assertEquals("2",calcTest.placeBet("set-score 2 4:2", "Rooney"));
+		assertNotEquals("Welcome This is your first bet Rooney" ,calcTest.placeBet("bet 3 4:0", "Rooney"));
+		assertEquals("2",calcTest.placeBet("set-score 3 5:1", "Rooney"));
+		assertNotEquals("Welcome This is your first bet Rooney" ,calcTest.placeBet("bet 1 1:0", "Rooney"));
+		assertEquals("2",calcTest.placeBet("set-score 1 2:1", "Rooney"));
+		
+		
+		assertNotEquals("Welcome This is your first bet Neur" , calcTest.placeBet("bet 1 1:0", "Neur"));
+		assertEquals("2",calcTest.placeBet("set-score 1 3:2", "Neur"));
+		assertNotEquals("Welcome This is your first bet Neur" ,calcTest.placeBet("bet 2 2:0", "Neur"));
+		assertEquals("2",calcTest.placeBet("set-score 2 6:4", "Neur"));
+		assertNotEquals("Welcome This is your first bet Neur" ,calcTest.placeBet("bet 3 4:0", "Neur"));
+		assertEquals("2",calcTest.placeBet("set-score 3 4:8", "Neur"));
+		assertNotEquals("Welcome This is your first bet Neur" ,calcTest.placeBet("bet 1 1:0", "Neur"));
+		assertEquals("2",calcTest.placeBet("set-score 1 5:6", "Neur"));
+		
+	}
+	*/
+	@Test 
+	public void testCalculateAllOnePoints() {
+		
+		BetController calcTest = new BetController();
+		
+		assertNotEquals("Welcome This is your first bet Zlatan" , calcTest.placeBet("bet 1 1:0", "Zlatan"));
+		assertEquals("1",calcTest.placeBet("set-score 1 3:0", "Zlatan"));
+		assertNotEquals("Welcome This is your first bet Zlatan" , calcTest.placeBet("bet 2 2:0", "Zlatan"));
+		assertEquals("1",calcTest.placeBet("set-score 2 6:5", "Zlatan"));
+		assertNotEquals("Welcome This is your first bet Zlatan" , calcTest.placeBet("bet 3 3:0", "Zlatan"));
+		assertEquals("1",calcTest.placeBet("set-score 3 5:0", "Zlatan"));
+		
+		assertNotEquals("Welcome This is your first bet Modric" , calcTest.placeBet("bet 1 0:1", "Modric"));
+		assertEquals("1",calcTest.placeBet("set-score 1 0:9", "Modric"));
+		assertNotEquals("Welcome This is your first bet Modric" , calcTest.placeBet("bet 2 0:2", "Modric"));
+		assertEquals("1",calcTest.placeBet("set-score 2 0:1", "Modric"));
+		//assertNotEquals("Welcome This is your first bet Modric" , calcTest.placeBet("bet 3 0:5", "Modric"));
+	//	assertEquals("1",calcTest.placeBet("set-score 3 0:2", "Modric"));
+		
+	}
 	
 	
 	
