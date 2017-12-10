@@ -2,8 +2,8 @@
 
 A simple slackbot to allow slack channel users to bet  and view the scores
 
-### **Getting Started**
-Google  :: 
+### **Getting Started **
+Ask Uncle Google  :: 
 Slack API documentation 
 Spring maven understanding
 REST- POST,GET understanding
@@ -49,8 +49,11 @@ All unitTests in slackBot Folder
 
 *Without unitTests its very hard to test a controller which runs in server*
 
-Tested using postMan - Collections - sending a set of 20...30 POST requests.
+Tested using postMan for multiple User scenario  
 
-Trying to automate this via Jenkins - Useful of Continuous Integration.
+Tried with Collections of requests - sending a set of 20...30 POST requests.
+
+
+*Now Trying to automate the collection of requests  via Jenkins - Useful of Continuous Integration.*
 
 
