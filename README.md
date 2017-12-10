@@ -3,17 +3,20 @@
 A simple slackbot to allow slack channel users to bet  and view the scores
 
 ### **Getting Started **
-Ask Uncle Google  :: 
+Ask Uncle Google about :: 
 Slack API documentation 
 Spring maven understanding
 REST- POST,GET understanding
 Tomcat servers in ubuntu 
 AWS EC2,Documentation
 
+
 ### ***Prerequisites:***
-Spring Tool suite - Any Eclipse will also suffice
-POSTMAN - Chrome Extension
-Git CLI 
+#### Spring Tool suite - Any Eclipse will also suffice
+#### POSTMAN - Chrome Extension
+**NGORK for Local tunnels ngork http 9999 - will tunnel Localhost:9999 to a fancy URL - which is public**
+
+#### Git CLI 
 
 
 ### ***Usage examples:***
@@ -35,9 +38,9 @@ WAR deployment in AWS EC2
 
 Create a LINUX instance in EC2 and install the latest JAVA-SDK and TOMCAT
 
-Paste the WAR file in :+1: /var/lib/tomacatX/webapps
+Paste the WAR file in :+1: /var/lib/tomacatX/webapps :+1:
 
-Use the PUBLIC IP address of EC2 and paste in URL path of slash command URL. 
+#### Use the PUBLIC IP address of EC2 and paste in URL path of slash command URL. 
 
 
 
@@ -47,7 +50,7 @@ Use the PUBLIC IP address of EC2 and paste in URL path of slash command URL.
 
 All unitTests in slackBot Folder 
 
-*Without unitTests its very hard to test a controller which runs in server*
+### *Without unitTests its very hard to test a controller which runs in server*
 
 Tested using postMan for multiple User scenario  
 
