@@ -1,7 +1,9 @@
 package com.worldcupbot.slack.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
@@ -26,7 +28,9 @@ public class BetController {
  private String forScore;
  private String againstScore;
  private boolean flag = false;
-
+ private static List<String> matchList= new ArrayList<>();
+private static List<String> userList = new ArrayList<>();
+private static Map<String,String> matchUser =new HashMap<>();
  @RequestMapping("/bet")
  public String placeBet(@RequestParam("text") String text,
   @RequestParam("user_name") String user) {
@@ -52,22 +56,23 @@ public class BetController {
    forScore = scores[0];
    againstScore = scores[1];
   }
-  /*for(int i=0;i<tokens.length;i++) {
-  	if(!(Pattern.matches("[a-ZA-Z0-9:-]+",tokens[i])))
-  			{
-  		response ="Bad Input - Pls Try in this format/worldcup bet 1 1:0 or  /worldcup set-score 1 1:0 or /worldcup ranking ";
-  	}
-  }
-  */
-
+ 
   if (verb.equalsIgnoreCase("bet")) {
    return placeBet(user, worldCupBet, match);
   }
 
-  if (verb.equalsIgnoreCase("set-score")) {
+  if (verb.equalsIgnoreCase("set-score") && !(isAlreadysetScore(match,user))) {
+	  
    return calculatePoints(user, match);
 
   }
+  if (verb.equalsIgnoreCase("set-score") && (isAlreadysetScore(match,user))) {
+	  
+	   return "Match has already set-score,Cant Have multiple  scores for single match";
+
+	  }
+
+  
   if (verb.equalsIgnoreCase("ranking")) {
    String resp = ranking();
 
@@ -81,6 +86,36 @@ public class BetController {
  }
 
 
+ private boolean isAlreadysetScore(String match , String user) {
+	 if(!(matchUser.containsKey(match))) {
+		 matchUser.put(match, user);
+		 return false;
+	 }
+	 
+	 else if(matchUser.containsKey(match) && !matchUser.get(match).equals(user)){
+		   matchUser.put(match, user);
+		   return false;
+	 }
+		 
+	 else 
+		 return true;
+	/* System.out.println("Inside Already set score"+match);
+	 if(matchUser.containsKey(match) && matchUser.containsValue(user)) {
+		
+	 }
+	 
+	 
+    if(!matchList.contains(match)&& !userList.contains(user)) {
+    	System.out.println("adding matchlist");
+     matchList.add(match);
+     userList.add(user);
+     	return false;
+    }
+     else
+    	 return true;*/
+	 	
+ }
+ 
  private boolean isAlreadyBet(String match, String user) {
   Map < String, WorldCupBet > matchMap = userMap.get(user);
   if (matchMap.containsKey(match)) {
@@ -102,15 +137,17 @@ public class BetController {
   String response = "";
 
   System.out.println("" + user + "" + match);
+  
   if (!userMap.containsKey(user)) {
    System.out.println("If UserMap does not contains" + user + "" + match);
 
    worldCupBet.setForscore(Integer.valueOf(forScore));
    worldCupBet.setAgainstscore(Integer.valueOf(againstScore));
+   worldCupBet.setMatch(Integer.valueOf(match));
 
 
    matchMap.put(match, worldCupBet);
-
+   
    userMap.put(user, matchMap);
    response = " bet placed on match--" + match + "\tpredicted scores\t" + forScore + ":" + againstScore;
    response = "Welcome This is your first bet " + user;
@@ -121,6 +158,7 @@ public class BetController {
 
    worldCupBet.setForscore(Integer.valueOf(forScore));
    worldCupBet.setAgainstscore(Integer.valueOf(againstScore));
+   worldCupBet.setMatch(Integer.valueOf(match));
 
    matchMap.put(match, worldCupBet);
 
@@ -134,7 +172,7 @@ public class BetController {
    String key = entry.getKey();
    WorldCupBet value = entry.getValue();
 
-   System.out.println(key + "\t" + value.getForscore() + "\t" + value.getAgainstscore());
+   System.out.println(key + "\t" + value.getForscore() + "\t" + value.getAgainstscore()+"\t"+value.getMatch());
 
   }
 
