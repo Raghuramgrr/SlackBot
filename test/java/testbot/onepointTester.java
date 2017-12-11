@@ -42,7 +42,7 @@ public class onepointTester {
 		assertEquals("1",calcTest.placeBet("set-score 1 0:9", "Modric"));
 		assertEquals("Match has already set-score,Cant Have multiple  scores for single match",calcTest.placeBet("set-score 1 2:9", "Modric"));
 		
-		TimeUnit.SECONDS.sleep(5);
+			TimeUnit.SECONDS.sleep(5);
 		
 		assertNotEquals("Welcome This is your first bet Modric" , calcTest.placeBet("bet 2 2:0", "Modric"));
 		assertEquals("1",calcTest.placeBet("set-score 2 5:2", "Modric"));
